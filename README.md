@@ -9,7 +9,7 @@
 | [`Investment_Thesis_2026-2037_과부하의_시대.md`](./Investment_Thesis_2026-2037_과부하의_시대.md) | 메인 리포트 v3.0. 「과부하의 시대」 2026–2037 투자 thesis: 5대 매크로 메가트렌드와 12년 카테고리 로드맵 (2026-09-04) |
 | [`Investment_Thesis_2026-2037_과부하의_시대.pdf`](./Investment_Thesis_2026-2037_과부하의_시대.pdf) | 같은 리포트의 PDF 판 (A4, 표지·페이지 번호가 있는 목차·장별 시작면·등급 색상 표·러닝 푸터) |
 | [`build/`](./build/) | 마크다운을 PDF로 만드는 스크립트 (`build_pdf.py`, `render.js`, `report.css`). Playwright + Chromium + Noto Sans CJK KR 필요 |
-| [`research/`](./research/) | 리포트 작성에 사용한 팩트시트 5종 (2026-09-04 기준 웹 조사, 출처 URL 포함) |
+| [`research/`](./research/) | 리포트 작성에 사용한 팩트시트 5종 + 개별 시장 조사 메모 (2026-09-04 기준 웹 조사, 출처 URL 포함) |
 
 ## 리포트 구조 (v3.0)
 
@@ -43,3 +43,4 @@
 | `research/03_climate_disaster_pandemic.md` | 재해 손실·보험·기후 지표·감염병·환경 부채·적응 투자 |
 | `research/04_labor_robots_populism_macro.md` | AI 고용 영향·로봇·AI 네이티브 기업·재정·기본소득·포퓰리즘·거시 앵커 |
 | `research/05_ma_startups_korea.md` | 글로벌 M&A·메가딜·반독점·AI M&A·PE·승계·한국 M&A·VC·IPO |
+| `research/06_livestock_manure_robot_market.md` | 축산 분뇨 청소 로봇: 축종별 적용 가능성, 지역별 낙농가 수, 대당 400만 원 기준 시장 규모 추정 |
