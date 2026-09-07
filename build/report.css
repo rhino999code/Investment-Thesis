@@ -33,6 +33,14 @@ body { font-family: "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", s
 .toc a .lead { flex: 1 1 auto; border-bottom: 1px dotted #b8c0cc; margin: 0 6px 4px; min-width: 8mm; }
 .toc a .pg { flex: 0 0 auto; color: #5b6676; font-variant-numeric: tabular-nums; font-weight: 400; }
 
+/* ---------- part dividers ---------- */
+.part { page-break-before: always; page-break-after: always; height: 240mm; display: flex; flex-direction: column;
+        justify-content: center; background: linear-gradient(160deg, #0e1f3a 0%, #17325c 100%); color: #fff;
+        padding: 20mm 16mm; border-radius: 6px; }
+.part-kicker { letter-spacing: .3em; font-size: 10pt; color: #9db4d6; margin-bottom: 6mm; }
+.part-title { font-size: 34pt; font-weight: 700; margin: 0 0 6mm; color: #fff; line-height: 1.2; }
+.part-sub { font-size: 12pt; color: #c9d7ea; line-height: 1.7; max-width: 120mm; }
+
 /* ---------- chapter openers ---------- */
 .chapter { page-break-before: always; margin: 0 0 6mm; padding-bottom: 3mm; border-bottom: 2px solid #17325c; }
 .chapter.mega { background: #eef3fa; border-left: 5px solid #17325c; border-bottom: none;

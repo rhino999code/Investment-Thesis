@@ -22,6 +22,13 @@ body = re.sub(r'<hr\s*/?>', '', body)
 def chapter(m):
     attrs, inner = m.group(1), m.group(2)
     plain = re.sub(r'<[^>]+>', '', inner)
+    mm = re.match(r'^PART (\d+)\.\s*(.+)$', plain)
+    if mm:
+        num, title = mm.groups()
+        sub = {"1": "먼저 읽는 부분. 결론, 로드맵, 시기별로 사야 할 것과 피할 것.",
+               "2": "근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널."}.get(num, "")
+        return (f'<section class="part"{attrs}><div class="part-kicker">PART {num}</div>'
+                f'<h2 class="part-title">{html.escape(title)}</h2><div class="part-sub">{sub}</div></section>')
     mm = re.match(r'^(\d+)\.\s*매크로 메가트렌드 (\d+):\s*(.+)$', plain)
     if mm:
         num, tnum, title = mm.groups()
@@ -67,7 +74,7 @@ CSS = open(os.path.join(HERE, "report.css"), encoding="utf-8").read()
 
 COVER = """
 <section class="cover">
-  <div class="cover-kicker">INVESTMENT THESIS · v3.0</div>
+  <div class="cover-kicker">INVESTMENT THESIS · v4.0</div>
   <h1 class="cover-title">과부하의 시대</h1>
   <div class="cover-sub">The Age of Overload</div>
   <div class="cover-desc">2026–2037 투자 Thesis<br>5대 매크로 메가트렌드와 12년 카테고리 로드맵</div>
@@ -79,7 +86,7 @@ COVER = """
     <div><span>5</span>재정의 한계와 분배의 정치</div>
   </div>
   <div class="cover-meta">
-    <div>작성일 2026년 9월 4일</div>
+    <div>작성일 2026년 9월 7일</div>
     <div>12년 지평 · 3년 단위 4개 시기 · 큰 흐름에서 세부 카테고리까지</div>
     <div>글로벌(미국 중심) + 한국 시사점</div>
   </div>
@@ -112,22 +119,28 @@ import pypdfium2 as pdfium
 pdf = pdfium.PdfDocument(body_pdf)
 pages = [re.sub(r'\s+', '', pdf[i].get_textpage().get_text_range()) for i in range(len(pdf))]
 n_pages = len(pages)
+# body starts at the first page that is not a TOC page: the first PART divider, else first page without '목차'
 start = 0
-while start < n_pages and '목차' in pages[start][:60]:
-    start += 1
+for i, t in enumerate(pages):
+    if t.startswith('PART1') or t.startswith('PART1.'):
+        start = i
+        break
+else:
+    while start < n_pages and '목차' in pages[start][:60]:
+        start += 1
+
+cursor = [start]  # headings appear in document order, so never look backwards
 
 def find_page(title):
     key = re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', title))
-    key = key.replace('매크로메가트렌드1·', '매크로메가트렌드1').replace('매크로메가트렌드2·', '매크로메가트렌드2') \
-             .replace('매크로메가트렌드3·', '매크로메가트렌드3').replace('매크로메가트렌드4·', '매크로메가트렌드4') \
-             .replace('매크로메가트렌드5·', '매크로메가트렌드5')
-    for i in range(start, n_pages):
-        if key in pages[i]:
-            return i + 1
-    # fallback: try the first 12 chars
-    for i in range(start, n_pages):
-        if key[:12] in pages[i]:
-            return i + 1
+    key = re.sub(r'매크로메가트렌드(\d)·', r'매크로메가트렌드\1', key)
+    stripped = re.sub(r'^(PART\d+\.|\d+\.|부록[A-Z]\.)', '', key)
+    stripped = re.sub(r'^매크로메가트렌드\d', '', stripped)
+    for probe in (key, key.replace('.', ''), stripped, stripped[:12], key[:12]):
+        for i in range(cursor[0], n_pages):
+            if probe and probe in pages[i]:
+                cursor[0] = i
+                return i + 1
     return None
 
 def add_pages(m):
