@@ -10,6 +10,8 @@ text = open(src, encoding="utf-8").read()
 
 VERSION = "v6.1"
 DATE = "2026년 9월 7일"
+COMPACT = len(sys.argv) > 3 and sys.argv[3] == "compact"
+EDITION = "압축판" if COMPACT else "전체판"
 
 # ---------- markdown -> body html ----------
 md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"],
@@ -37,21 +39,21 @@ def chapter(m):
     if mm:
         num, title = mm.groups()
         return (f'<section class="part"{attrs}><div class="part-kicker">PART {num}</div>'
-                f'<h2 class="part-title">{html.escape(title)}</h2>' + (f'<div class="part-sub">{PART_SUB[num]}</div>' if num in PART_SUB else '') + '</section>')
+                f'<h2 class="part-title">{title}</h2>' + (f'<div class="part-sub">{PART_SUB[num]}</div>' if num in PART_SUB else '') + '</section>')
     mm = re.match(r'^(\d+)\.\s*매크로 메가트렌드 (\d+):\s*(.+)$', plain)
     if mm:
         num, tnum, title = mm.groups()
         return (f'<section class="chapter mega"{attrs}><div class="kicker">{num}장 · 매크로 메가트렌드 {tnum}</div>'
-                f'<h2 class="chapter-title">{html.escape(title)}</h2></section>')
+                f'<h2 class="chapter-title">{title}</h2></section>')
     mm = re.match(r'^(\d+)\.\s*(.+)$', plain)
     if mm:
         num, title = mm.groups()
         return (f'<section class="chapter"{attrs}><div class="kicker">{num}장</div>'
-                f'<h2 class="chapter-title">{html.escape(title)}</h2></section>')
+                f'<h2 class="chapter-title">{title}</h2></section>')
     mm = re.match(r'^부록 ([A-Z])\.\s*(.+)$', plain)
     if mm:
         return (f'<section class="chapter"{attrs}><div class="kicker">부록 {mm.group(1)}</div>'
-                f'<h2 class="chapter-title">{html.escape(mm.group(2))}</h2></section>')
+                f'<h2 class="chapter-title">{mm.group(2)}</h2></section>')
     return f'<section class="chapter"{attrs}><h2 class="chapter-title">{inner}</h2></section>'
 
 body = re.sub(r'<h2([^>]*)>(.*?)</h2>', chapter, body, flags=re.S)
@@ -81,7 +83,8 @@ toc = md.toc
 toc = re.sub(r'<li><a href="#[^"]*">2026[^<]*</a></li>\s*', '', toc, count=1)
 toc = re.sub(r'매크로 메가트렌드 (\d):', r'매크로 메가트렌드 \1 ·', toc)
 # the summary chapter shares its title with the PART divider: list it once
-toc = re.sub(r'<li><a href="#[^"]*">Investment Thesis Summary</a></li>\s*', '', toc, count=1)
+if 'PART 1' in text:
+    toc = re.sub(r'<li><a href="#[^"]*">Investment Thesis Summary</a></li>\s*', '', toc, count=1)
 
 CSS = open(os.path.join(HERE, "report.css"), encoding="utf-8").read()
 HEAD = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -91,7 +94,7 @@ COVER = f"""
 <section class="cover">
   <h1 class="cover-title">과부하의 시대</h1>
   <div class="cover-sub">The Age of Overload</div>
-  <div class="cover-desc">2026–2037 투자 Thesis</div>
+  <div class="cover-desc">2026–2037 투자 Thesis{" · 압축판" if COMPACT else ""}</div>
   <div class="cover-foot">
     <div class="org">AXE Corporation</div>
     <div>Writer: 한진우</div>
@@ -105,10 +108,10 @@ SUBCOVER = f"""
   <h2>과부하의 시대 (The Age of Overload)</h2>
   <div class="sc-sub">2026–2037 투자 Thesis: 5대 매크로 메가트렌드와 12년 카테고리 로드맵</div>
   <table>
-    <tr><th>버전</th><td>{VERSION}</td></tr>
+    <tr><th>버전</th><td>{VERSION} {EDITION}</td></tr>
     <tr><th>작성일</th><td>{DATE}</td></tr>
     <tr><th>작성</th><td>한진우, AXE Corporation</td></tr>
-    <tr><th>구성</th><td>PART 1 Investment Thesis Summary<br>PART 2 본문 (근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널)<br>PART 3 2030 · 2035 · 2040년의 하루</td></tr>
+    <tr><th>구성</th><td>{"요약, 트렌드별 한 장 정리, 시나리오, 자본시장, 포트폴리오, 시그널. 전체판(56쪽)의 근거·카테고리 표·세 개의 하루는 생략" if COMPACT else "PART 1 Investment Thesis Summary<br>PART 2 본문 (근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널)<br>PART 3 2030 · 2035 · 2040년의 하루"}</td></tr>
     <tr><th>지평</th><td>12년, 3년 단위 (2026–28 / 2029–31 / 2032–34 / 2035–37)</td></tr>
   </table>
   <div class="sc-note">이 리포트는 공개 자료를 바탕으로 한 구조적 분석이며 특정 종목의 매수·매도 권유가 아니다. 기업명은 카테고리를 설명하기 위한 예시다. 본문 숫자는 2026년 9월 4일 기준이며 일부는 2차 자료로, 투자 집행 전 원자료 확인이 필요하다.</div>
@@ -138,7 +141,7 @@ import pypdfium2 as pdfium
 pdf = pdfium.PdfDocument(body_pdf)
 pages = [re.sub(r'\s+', '', pdf[i].get_textpage().get_text_range()) for i in range(len(pdf))]
 n_pages = len(pages)
-start = 0
+start = 2  # after sub-cover and TOC
 for i, t in enumerate(pages):
     if t.startswith('PART1'):
         start = i

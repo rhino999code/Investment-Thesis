@@ -8,7 +8,9 @@
 |---|---|
 | [`Investment_Thesis_2026-2037_과부하의_시대.md`](./Investment_Thesis_2026-2037_과부하의_시대.md) | 메인 리포트 v6.1. 「과부하의 시대」 2026–2037 투자 thesis: 5대 매크로 메가트렌드와 12년 카테고리 로드맵, 2030·2035·2040년의 하루 (AXE Corporation, 한진우, 2026-09-07) |
 | [`Investment_Thesis_2026-2037_과부하의_시대.pdf`](./Investment_Thesis_2026-2037_과부하의_시대.pdf) | 같은 리포트의 PDF 판 (A4, AXE 적갈색 테마, 표지·서브커버·PART 구분면·페이지 번호가 있는 목차·장별 시작면·등급 색상 표·러닝 푸터) |
-| [`build/`](./build/) | 마크다운을 PDF로 만드는 스크립트 (`assemble.py`로 파트 파일 결합, `build_pdf.py` + `render.js` + `report.css`로 PDF 생성). Playwright + Chromium + Noto Sans CJK KR 필요 |
+| [`Investment_Thesis_2026-2037_과부하의_시대_압축판.md`](./Investment_Thesis_2026-2037_과부하의_시대_압축판.md) | 압축판 v6.1. 요약, 트렌드별 한 장 정리(핵심 메시지·근거·핵심 변수·핵심 카테고리·틀리는 조건), 참고 트렌드와 세 시나리오, 자본시장, 포트폴리오와 시그널, 결론 |
+| [`Investment_Thesis_2026-2037_과부하의_시대_압축판.pdf`](./Investment_Thesis_2026-2037_과부하의_시대_압축판.pdf) | 압축판 PDF (15쪽, 같은 테마) |
+| [`build/`](./build/) | 마크다운을 PDF로 만드는 스크립트 (`assemble.py`로 파트 파일 결합, `build_pdf.py` + `render.js` + `report.css`로 PDF 생성. 압축판은 `build_pdf.py in.md out.pdf compact`). Playwright + Chromium + Noto Sans CJK KR 필요 |
 | [`research/`](./research/) | 리포트 작성에 사용한 팩트시트 5종 (2026-09-04 기준 웹 조사, 출처 URL 포함) |
 
 ## 리포트 구조 (v6.1)
