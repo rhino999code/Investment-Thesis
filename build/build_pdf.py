@@ -26,7 +26,8 @@ def chapter(m):
     if mm:
         num, title = mm.groups()
         sub = {"1": "먼저 읽는 부분. 결론, 로드맵, 시기별로 사야 할 것과 피할 것.",
-               "2": "근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널."}.get(num, "")
+               "2": "근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널.",
+               "3": "숫자가 사람의 하루에서 어떻게 보이는가. 세 사람의 2030년, 2035년, 2040년."}.get(num, "")
         return (f'<section class="part"{attrs}><div class="part-kicker">PART {num}</div>'
                 f'<h2 class="part-title">{html.escape(title)}</h2><div class="part-sub">{sub}</div></section>')
     mm = re.match(r'^(\d+)\.\s*매크로 메가트렌드 (\d+):\s*(.+)$', plain)
@@ -46,6 +47,11 @@ def chapter(m):
     return f'<section class="chapter"{attrs}><h2 class="chapter-title">{inner}</h2></section>'
 
 body = re.sub(r'<h2([^>]*)>(.*?)</h2>', chapter, body, flags=re.S)
+
+# ---------- trend tags: **[트렌드 1 · …] text** -> pill + bold text ----------
+body = re.sub(r'<strong>\[([^\]]+)\]\s*(.*?)</strong>',
+              lambda m: f'<span class="tag">{m.group(1)}</span>' + (f' <strong>{m.group(2)}</strong>' if m.group(2).strip() else ''),
+              body, flags=re.S)
 
 # ---------- rating symbols in table cells ----------
 RATING = {'◎': 'r-core', '○': 'r-up', '△': 'r-sel', '✕': 'r-avoid'}
@@ -74,7 +80,7 @@ CSS = open(os.path.join(HERE, "report.css"), encoding="utf-8").read()
 
 COVER = """
 <section class="cover">
-  <div class="cover-kicker">INVESTMENT THESIS · v4.0</div>
+  <div class="cover-kicker">INVESTMENT THESIS · v5.0</div>
   <h1 class="cover-title">과부하의 시대</h1>
   <div class="cover-sub">The Age of Overload</div>
   <div class="cover-desc">2026–2037 투자 Thesis<br>5대 매크로 메가트렌드와 12년 카테고리 로드맵</div>

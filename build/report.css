@@ -65,6 +65,10 @@ pre { background: #f4f6f9; border: 1px solid #dde3ea; border-radius: 4px; paddin
       line-height: 1.5; white-space: pre-wrap; page-break-inside: avoid; }
 pre code { background: none; padding: 0; }
 
+/* ---------- trend tags ---------- */
+.tag { display: inline-block; background: #17325c; color: #fff; font-size: 8.4pt; font-weight: 700; letter-spacing: .02em;
+       padding: 1.5pt 7pt; border-radius: 3px; margin-right: 4pt; vertical-align: 1pt; white-space: nowrap; }
+
 /* ---------- callouts ---------- */
 blockquote { margin: 8pt 0 10pt; padding: 7pt 11pt; background: #f4f7fb; border-left: 4px solid #3f6fb5; border-radius: 0 4px 4px 0;
              page-break-inside: avoid; }
