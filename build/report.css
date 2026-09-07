@@ -70,10 +70,14 @@ pre code { background: none; padding: 0; }
        padding: 1.5pt 7pt; border-radius: 3px; margin-right: 4pt; vertical-align: 1pt; white-space: nowrap; }
 
 /* ---------- callouts ---------- */
-blockquote { margin: 8pt 0 10pt; padding: 7pt 11pt; background: #f4f7fb; border-left: 4px solid #3f6fb5; border-radius: 0 4px 4px 0;
-             page-break-inside: avoid; }
+blockquote { margin: 8pt 0 10pt; padding: 8pt 12pt 7pt; background: #f4f7fb; border-left: 4px solid #3f6fb5; border-radius: 0 4px 4px 0;
+             page-break-inside: auto; orphans: 3; widows: 3; }
 blockquote p { margin: 2pt 0; }
-blockquote p:first-child strong { color: #17325c; }
+blockquote p:first-child { margin-bottom: 4pt; }
+blockquote p:first-child strong { color: #0e1f3a; font-size: 11.2pt; }
+blockquote ul { margin: 3pt 0 0; padding-left: 16px; }
+blockquote li { margin: 2pt 0; line-height: 1.6; }
+blockquote li strong { color: #17325c; }
 
 /* ---------- tables ---------- */
 table { border-collapse: collapse; width: 100%; margin: 6pt 0 12pt; font-size: 8.7pt; line-height: 1.5; page-break-inside: auto; }
