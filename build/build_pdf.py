@@ -80,7 +80,7 @@ CSS = open(os.path.join(HERE, "report.css"), encoding="utf-8").read()
 
 COVER = """
 <section class="cover">
-  <div class="cover-kicker">INVESTMENT THESIS · v5.0</div>
+  <div class="cover-kicker">INVESTMENT THESIS · v5.1</div>
   <h1 class="cover-title">과부하의 시대</h1>
   <div class="cover-sub">The Age of Overload</div>
   <div class="cover-desc">2026–2037 투자 Thesis<br>5대 매크로 메가트렌드와 12년 카테고리 로드맵</div>
