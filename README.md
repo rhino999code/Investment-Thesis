@@ -6,15 +6,15 @@
 
 | 파일 | 내용 |
 |---|---|
-| [`Investment_Thesis_2026-2037_과부하의_시대.md`](./Investment_Thesis_2026-2037_과부하의_시대.md) | 메인 리포트 v6.0. 「과부하의 시대」 2026–2037 투자 thesis: 5대 매크로 메가트렌드와 12년 카테고리 로드맵, 2030·2035·2040년의 하루 (AXE Corporation, 한진우, 2026-09-07) |
+| [`Investment_Thesis_2026-2037_과부하의_시대.md`](./Investment_Thesis_2026-2037_과부하의_시대.md) | 메인 리포트 v6.1. 「과부하의 시대」 2026–2037 투자 thesis: 5대 매크로 메가트렌드와 12년 카테고리 로드맵, 2030·2035·2040년의 하루 (AXE Corporation, 한진우, 2026-09-07) |
 | [`Investment_Thesis_2026-2037_과부하의_시대.pdf`](./Investment_Thesis_2026-2037_과부하의_시대.pdf) | 같은 리포트의 PDF 판 (A4, AXE 적갈색 테마, 표지·서브커버·PART 구분면·페이지 번호가 있는 목차·장별 시작면·등급 색상 표·러닝 푸터) |
-| [`build/`](./build/) | 마크다운을 PDF로 만드는 스크립트 (`build_pdf.py`, `render.js`, `report.css`). Playwright + Chromium + Noto Sans CJK KR 필요 |
+| [`build/`](./build/) | 마크다운을 PDF로 만드는 스크립트 (`assemble.py`로 파트 파일 결합, `build_pdf.py` + `render.js` + `report.css`로 PDF 생성). Playwright + Chromium + Noto Sans CJK KR 필요 |
 | [`research/`](./research/) | 리포트 작성에 사용한 팩트시트 5종 (2026-09-04 기준 웹 조사, 출처 URL 포함) |
 
-## 리포트 구조 (v6.0)
+## 리포트 구조 (v6.1)
 
 **PART 1. Investment Thesis Summary** (먼저 읽는 부분)
-- 다섯 가지 조건이 어떻게 바뀌고 돈은 어디로 가는가, 5대 매크로 메가트렌드 표, 시기별로 투자할 섹터 한눈에, 분야별 투자·축소 섹터 표, 12년 로드맵, 여덟 개의 불편한 결론
+- 다섯 가지 조건이 어떻게 바뀌고 돈은 어디로 가는가, 5대 매크로 메가트렌드 표, 시기별로 투자할 섹터·줄일 섹터 한눈에(분야 × 연도 표), 12년 로드맵, 여덟 개의 불편한 결론
 
 **PART 2. 본문**
 1. 매크로 메가트렌드 1: AI 연산 수요와 에너지 제약

@@ -18,7 +18,7 @@
 * { box-sizing: border-box; }
 html { font-size: 10.4pt; }
 body { font-family: "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
-       color: var(--ink); line-height: 1.75; margin: 0; word-break: keep-all; overflow-wrap: anywhere;
+       color: var(--ink); line-height: 1.85; margin: 0; word-break: keep-all; overflow-wrap: anywhere;
        -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
 /* ---------- cover ---------- */
@@ -70,8 +70,8 @@ body { font-family: "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", s
 /* ---------- headings & text ---------- */
 h3 { font-size: 12.8pt; color: var(--brand-dark); margin: 17pt 0 7pt; page-break-after: avoid; padding-left: 8px;
      border-left: 3px solid var(--brand-mid); line-height: 1.35; }
-h4 { font-size: 11pt; margin: 12pt 0 5pt; page-break-after: avoid; color: var(--ink); }
-p { margin: 5pt 0 8pt; }
+h4 { font-size: 11.6pt; margin: 16pt 0 5pt; page-break-after: avoid; color: var(--brand-dark); }
+p { margin: 6pt 0 11pt; }
 ul, ol { padding-left: 20px; margin: 4pt 0 9pt; }
 li { margin: 3pt 0; }
 li > ul, li > ol { margin: 2pt 0; }
@@ -87,9 +87,8 @@ pre code { background: none; padding: 0; }
        padding: 1.5pt 7pt; border-radius: 3px; margin-right: 4pt; vertical-align: 1pt; white-space: nowrap; }
 
 /* ---------- callouts ---------- */
-blockquote { margin: 14pt 0 22pt; padding: 10pt 14pt 9pt; background: var(--brand-pale); border-left: 4px solid var(--brand-mid);
+blockquote { margin: 0 0 26pt; padding: 11pt 15pt 10pt; background: var(--brand-pale); border-left: 4px solid var(--brand-mid);
              border-radius: 0 4px 4px 0; page-break-inside: auto; orphans: 3; widows: 3; }
-blockquote + blockquote { margin-top: 0; }
 blockquote p { margin: 2pt 0; }
 blockquote p:first-child { margin-bottom: 5pt; }
 blockquote p:first-child strong { color: var(--brand-deep); font-size: 11.2pt; }
@@ -116,3 +115,4 @@ tbody tr:nth-child(even) td.r-core { background: #dfeee6; }
 tbody tr:nth-child(even) td.r-up { background: #e0ebf8; }
 tbody tr:nth-child(even) td.r-sel { background: #eaecef; }
 tbody tr:nth-child(even) td.r-avoid { background: #f7dfdb; }
+blockquote.keep { page-break-inside: avoid; }

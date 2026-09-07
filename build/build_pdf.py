@@ -8,13 +8,18 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 src, out_pdf = sys.argv[1], sys.argv[2]
 text = open(src, encoding="utf-8").read()
 
-VERSION = "v6.0"
+VERSION = "v6.1"
 DATE = "2026년 9월 7일"
 
 # ---------- markdown -> body html ----------
 md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"],
                        extension_configs={"toc": {"toc_depth": "2-2"}})
+# adjacent "> " cards separated by a blank line must stay separate blockquotes
+text = re.sub(r'\n\n(?=> \*\*\[)', '\n\n<!-- card -->\n\n', text)
 body = md.convert(text)
+body = body.replace('<!-- card -->', '')
+# split blockquotes that python-markdown merged across the marker
+body = re.sub(r'</blockquote>\s*<blockquote>', '</blockquote>\n<blockquote>', body)
 
 # drop the title block (h1 + h2 + meta list + hr): the cover and sub-cover replace it
 body = re.sub(r'^<h1[^>]*>.*?</h1>\s*<h2[^>]*>.*?</h2>\s*<ul>.*?</ul>\s*<hr\s*/?>', '', body, count=1, flags=re.S)
@@ -66,6 +71,10 @@ def rate_cell(m):
         return f'<td class="rate {RATING[stripped[0]]}"{m.group(1)}>{cell}</td>'
     return m.group(0)
 body = re.sub(r'<td([^>]*)>(.*?)</td>', rate_cell, body, flags=re.S)
+def keep_short(m):
+    plain = re.sub(r'<[^>]+>', '', m.group(1))
+    return f'<blockquote class="keep">{m.group(1)}</blockquote>' if len(plain) < 420 else m.group(0)
+body = re.sub(r'<blockquote>(.*?)</blockquote>', keep_short, body, flags=re.S)
 body = re.sub(r'<td>(<strong>)?높음(</strong>)?( \([^)]*\))?</td>', lambda m: f'<td class="risk-high">높음{m.group(3) or ""}</td>', body)
 
 # ---------- TOC (top level only) ----------
