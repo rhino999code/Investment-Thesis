@@ -8,8 +8,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 src, out_pdf = sys.argv[1], sys.argv[2]
 text = open(src, encoding="utf-8").read()
 
-VERSION = "v6.1"
-DATE = "2026년 9월 7일"
+VERSION = "v6.2"
+DATE = "2026년 9월 8일"
 COMPACT = len(sys.argv) > 3 and sys.argv[3] == "compact"
 EDITION = "압축판" if COMPACT else "전체판"
 
@@ -64,12 +64,15 @@ body = re.sub(r'<strong>\[([^\]]+)\]\s*(.*?)</strong>',
               body, flags=re.S)
 
 # ---------- rating symbols in table cells ----------
-RATING = {'◎': 'r-core', '○': 'r-up', '△': 'r-sel', '✕': 'r-avoid'}
+RATING = {'◎': ('r-core', '집중'), '○': ('r-up', '늘림'), '△': ('r-sel', '골라서'), '✕': ('r-avoid', '피함')}
 def rate_cell(m):
     cell = m.group(2)
     stripped = re.sub(r'<[^>]+>', '', cell).strip()
     if stripped and stripped[0] in RATING:
-        return f'<td class="rate {RATING[stripped[0]]}"{m.group(1)}>{cell}</td>'
+        cls, label = RATING[stripped[0]]
+        rest = stripped[1:].strip()
+        rest_html = f'<span class="rr">{rest}</span>' if rest else ''
+        return f'<td class="rate {cls}"{m.group(1)}><span class="rs">{stripped[0]}</span> <span class="rl">{label}</span>{rest_html}</td>'
     return m.group(0)
 body = re.sub(r'<td([^>]*)>(.*?)</td>', rate_cell, body, flags=re.S)
 def keep_short(m):
@@ -111,7 +114,7 @@ SUBCOVER = f"""
     <tr><th>버전</th><td>{VERSION} {EDITION}</td></tr>
     <tr><th>작성일</th><td>{DATE}</td></tr>
     <tr><th>작성</th><td>한진우, AXE Corporation</td></tr>
-    <tr><th>구성</th><td>{"요약, 트렌드별 한 장 정리, 시나리오, 자본시장, 포트폴리오, 시그널. 전체판(56쪽)의 근거·카테고리 표·세 개의 하루는 생략" if COMPACT else "PART 1 Investment Thesis Summary<br>PART 2 본문 (근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널)<br>PART 3 2030 · 2035 · 2040년의 하루"}</td></tr>
+    <tr><th>구성</th><td>{"요약, 트렌드별 한 장 정리, 시나리오, 자본시장, 포트폴리오, 시그널. 전체판(60쪽)의 근거·카테고리 표·세 개의 하루는 생략" if COMPACT else "PART 1 Investment Thesis Summary<br>PART 2 본문 (근거, 시기별 전개, 카테고리 표, 자본시장, 포트폴리오, 시그널)<br>PART 3 2030 · 2035 · 2040년의 하루"}</td></tr>
     <tr><th>지평</th><td>12년, 3년 단위 (2026–28 / 2029–31 / 2032–34 / 2035–37)</td></tr>
   </table>
   <div class="sc-note">이 리포트는 공개 자료를 바탕으로 한 구조적 분석이며 특정 종목의 매수·매도 권유가 아니다. 기업명은 카테고리를 설명하기 위한 예시다. 본문 숫자는 2026년 9월 4일 기준이며 일부는 2차 자료로, 투자 집행 전 원자료 확인이 필요하다.</div>
